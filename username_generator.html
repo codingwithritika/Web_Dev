@@ -1,0 +1,379 @@
+<!--Customizable Username Generator Web Page-->
+
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Username Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-copy {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-copy:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-refresh {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-refresh:hover {
+            background: #764ba2;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .result-item {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-text {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+
+        .copy-btn.copied {
+            background: #4caf50;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-generate {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Username Generator</h1>
+
+        <div class="form-group">
+            <label for="baseWord">Base Word or Prefix</label>
+            <input type="text" id="baseWord" placeholder="Enter a word (e.g., 'ninja', 'dragon')">
+        </div>
+
+        <div class="form-group">
+            <label for="suffix">Add Something at the End?</label>
+            <select id="suffix">
+                <option value="numbers">Numbers → ninja123, dragon456</option>
+                <option value="symbols">Symbols → ninja_pro, dragon-88</option>
+                <option value="words">Words → ninjaHero, dragonMax</option>
+                <option value="none">Nothing → just ninja, dragon</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Customization Options</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="uppercase" checked>
+                    <label for="uppercase">Uppercase</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="lowercase" checked>
+                    <label for="lowercase">Lowercase</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="numbers">
+                    <label for="numbers">Numbers</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="underscores">
+                    <label for="underscores">Underscores</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-copy" onclick="copyAll()">📋 Copy All</button>
+            <button class="btn-refresh" onclick="generateUsernames()">🔄 Regenerate</button>
+            <button class="btn-generate" onclick="generateUsernames()">✨ Generate Usernames</button>
+        </div>
+
+        <div class="results" id="results" style="display: none;">
+            <div id="resultsList"></div>
+        </div>
+    </div>
+
+    <script>
+        const adjectives = ['Swift', 'Silent', 'Brave', 'Clever', 'Shadow', 'Storm', 'Phoenix', 'Nexus', 'Cosmic', 'Mystic', 'Cyber', 'Pixel', 'Vector', 'Stellar', 'Quantum'];
+        const suffixWords = ['Pro', 'Max', 'Hero', 'Elite', 'Prime', 'Ace', 'Boss', 'King', 'Titan', 'Sage', 'Vortex', 'Blade'];
+
+        function generateUsernames() {
+            const baseWord = document.getElementById('baseWord').value.trim();
+            
+            if (!baseWord) {
+                alert('Please enter a base word!');
+                return;
+            }
+
+            const suffixStyle = document.getElementById('suffix').value;
+            const useUppercase = document.getElementById('uppercase').checked;
+            const useLowercase = document.getElementById('lowercase').checked;
+            const useNumbers = document.getElementById('numbers').checked;
+            const useUnderscores = document.getElementById('underscores').checked;
+
+            const usernames = new Set();
+
+            for (let i = 0; i < 5; i++) {
+                let username = baseWord;
+
+                // Add adjective
+                if (Math.random() > 0.5) {
+                    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+                    username = adj + username;
+                }
+
+                // Add suffix
+                if (suffixStyle === 'numbers') {
+                    username += Math.floor(Math.random() * 999);
+                } else if (suffixStyle === 'symbols') {
+                    username += (Math.random() > 0.5 ? '_' : '-') + Math.floor(Math.random() * 99);
+                } else if (suffixStyle === 'words') {
+                    const word = suffixWords[Math.floor(Math.random() * suffixWords.length)];
+                    username += word;
+                }
+
+                // Add extra character if checked
+                if (useUnderscores && Math.random() > 0.5) {
+                    const pos = Math.floor(Math.random() * username.length);
+                    username = username.slice(0, pos) + '_' + username.slice(pos);
+                }
+
+                if (useNumbers && Math.random() > 0.6) {
+                    username += Math.floor(Math.random() * 10);
+                }
+
+                // Apply case
+                if (useLowercase && !useUppercase) {
+                    username = username.toLowerCase();
+                } else if (useUppercase && !useLowercase) {
+                    username = username.toUpperCase();
+                }
+
+                usernames.add(username);
+            }
+
+            displayResults(Array.from(usernames));
+        }
+
+        function displayResults(usernames) {
+            const resultsList = document.getElementById('resultsList');
+            const resultsDiv = document.getElementById('results');
+
+            if (usernames.length === 0) {
+                resultsList.innerHTML = '<div class="no-results">No usernames generated. Please try again!</div>';
+            } else {
+                resultsList.innerHTML = usernames.map((username, index) => `
+                    <div class="result-item">
+                        <span class="result-text">${username}</span>
+                        <button class="copy-btn" onclick="copyUsername(this, '${username}')">Copy</button>
+                    </div>
+                `).join('');
+            }
+
+            resultsDiv.style.display = 'block';
+        }
+
+        function copyUsername(btn, username) {
+            navigator.clipboard.writeText(username).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function copyAll() {
+            const resultItems = document.querySelectorAll('.result-text');
+            if (resultItems.length === 0) {
+                alert('Generate usernames first!');
+                return;
+            }
+
+            const allUsernames = Array.from(resultItems).map(el => el.textContent).join('\n');
+            navigator.clipboard.writeText(allUsernames).then(() => {
+                alert('All usernames copied to clipboard!');
+            });
+        }
+
+        // Generate on Enter key
+        document.getElementById('baseWord').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') generateUsernames();
+        });
+    </script>
+</body>
+</html>
